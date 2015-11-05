@@ -1,5 +1,8 @@
 module Employee
   class Data < Grape::API
+      before do
+      header "Access-Control-Allow-Origin", "*"
+  end
     resource :qa_stats do
           format :json
       desc "list"
