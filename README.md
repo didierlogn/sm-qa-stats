@@ -1,1 +1,1 @@
-# sm-qa-stats
+# sm-qa-stats.github.io
