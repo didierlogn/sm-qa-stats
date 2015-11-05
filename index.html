@@ -8,7 +8,7 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="images/favicon.html">
 
-    <title>Responsive Table</title>
+    <title>Schoolmint QA Metric Dashboard</title>
 
     <!--Core CSS -->
     <link href="bs3/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,8 @@
 <div class="brand">
 
     <a href="index-2.html" class="logo">
-        <img src="images/logo.png" alt="">
+        <!--<img src="images/logo.png" alt="">-->
+        <h2 class="cal-day">QA Metrics</h2>
     </a>
 
 </div>
@@ -61,10 +62,12 @@
             <div class="col-sm-12">
                 <section class="panel">
                     <header class="panel-heading">
-                        QA Metrics
+                        QA Metrics current sprint
 
                     </header>
                     <div class="panel-body">
+                        <img src="images/ajax-loader.gif" id="loading-image">
+
                         <section id="unseen">
                             <table class="table table-bordered table-striped table-condensed">
                                 <thead>
@@ -113,7 +116,7 @@
 
 <script>
     $( document ).ready(function() {
-
+        $("#unseen").hide();
 
         $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/s47", function( data ) {
             var items = [];
@@ -127,6 +130,8 @@
 
                 html: items.join( "" )
             }).appendTo( "table" );
+            $("#unseen").show();
+            $("#loading-image").hide();
         });
 //
 //        $.get("http://52.91.244.245:3000/api/v1/qa_stats/s47").done(function (data) {

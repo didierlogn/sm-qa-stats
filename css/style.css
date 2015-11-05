@@ -319,7 +319,7 @@ ul.sidebar-menu li a.active i {
 .brand {
     background:#1fb5ad;
     float:left;
-    width:240px;
+    width:400px;
     height:80px;
     position:relative;
 }
@@ -4860,7 +4860,7 @@ div.tagsinput span.tag {
     font-weight:300;
     text-transform:uppercase;
     color:#fff;
-    padding-top:15px;
+    /*padding-top:15px;*/
     padding-bottom:30px;
 }
 .cal-day span {
