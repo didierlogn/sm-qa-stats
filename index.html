@@ -105,6 +105,7 @@
                             </table>
                         </section>
                     </div>
+                    <span class="label label-success">Compare last sprints</span>
                 </section>
 
 
@@ -117,7 +118,7 @@
             <div class="row" id ="charts">
                 <div class="col-sm-4">
                     <section class="panel">
-                        <header class="panel-heading">
+                        <header class="panel-heading" id="current-sprint-chart-graphic">
                             Bar Chart
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
@@ -136,7 +137,7 @@
                 </div>
                 <div class="col-sm-4">
                     <section class="panel">
-                        <header class="panel-heading">
+                        <header class="panel-heading" id="previous-sprint-chart-graphic">
                             Bar Chart
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
@@ -155,7 +156,7 @@
                 </div>
                 <div class="col-sm-4">
                     <section class="panel">
-                        <header class="panel-heading">
+                        <header class="panel-heading" id="last-sprint-chart-graphic">
                             Bar Chart
                         <span class="tools pull-right">
                             <a href="javascript:;" class="fa fa-chevron-down"></a>
@@ -207,6 +208,9 @@
         $("#charts").hide();
   });
 
+    $(".label-success").click(function( event){
+        $("#charts").show();
+    });
 
     $("button").click(function( event ) {
         $("#current-sprint").hide();
@@ -215,25 +219,30 @@
         $( ".panel-heading" ).text( "QA Metrics for " +$("#sprint").val() +" sprint." );
 
         $( "tbody").remove();
-        $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/"+$("#sprint").val() , function( data ) {
+        $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/s"+$("#sprint").val() , function( data ) {
             var items = [];
             $.each( data, function( key, val ) {
 
                 items.push( "<tr> <td>"+key+"</td> <td>"+val+"</td> </tr>");
             });
-    
+
             $( "<tbody/>", {
                 html: items.join( "" )
             }).appendTo( "table" );
 
 
 
-            renderGraphics("48", "canvas");
-            renderGraphics("48", "canvas1");
-            renderGraphics("48", "canvas2");
+            renderGraphics($("#sprint").val(), "canvas");
+            $( "#current-sprint-chart-graphic" ).text( "QA Metrics for s" +$("#sprint").val() +" sprint." );
+
+            renderGraphics($("#sprint").val()-1, "canvas1");
+            $( "#previous-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-1) +" sprint." );
+
+            renderGraphics($("#sprint").val()-2, "canvas2");
+            $( "#last-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-2 )+" sprint." );
 
 
-            $("#charts").show();
+
             $("#current-sprint").show();
             $("#loading-image").hide();
         });
