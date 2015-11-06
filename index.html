@@ -141,11 +141,12 @@
 
 
     $("button").click(function( event ) {
-
+        $("#current-sprint").hide();
         $("#loading-image").show();
 
         $( ".panel-heading" ).text( "QA Metrics for " +$("#sprint").val() +" sprint." );
 
+        $( "tbody").remove();
         $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/"+$("#sprint").val() , function( data ) {
             var items = [];
             $.each( data, function( key, val ) {
