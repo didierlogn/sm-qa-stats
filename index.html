@@ -146,7 +146,7 @@
 
         $( ".panel-heading" ).text( "QA Metrics for " +$("#sprint").val() +" sprint." );
 
-        $.getJSON( "http://localhost:3000/api/v1/qa_stats/"+$("#sprint").val() , function( data ) {
+        $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/"+$("#sprint").val() , function( data ) {
             var items = [];
             $.each( data, function( key, val ) {
 
