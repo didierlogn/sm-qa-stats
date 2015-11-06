@@ -54,9 +54,9 @@ module Employee
 
           puts "Total  of test cases: "+ $count.to_s
 
-          {"total-stories" => @totalstories.length.to_s,
-            "total-stories-w-test-cases" => @bugs.length.to_s,
-            "total-test-cases-created" => $count.to_s
+          {"Stories" => @totalstories.length.to_s,
+            "Stories with test cases" => @bugs.length.to_s,
+            "Test cases created" => $count.to_s
           }
 
       end     
