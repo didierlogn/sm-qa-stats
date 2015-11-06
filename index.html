@@ -229,9 +229,7 @@
             $( "<tbody/>", {
                 html: items.join( "" )
             }).appendTo( "table" );
-
-
-
+            
             renderGraphics($("#sprint").val(), "canvas");
             $( "#current-sprint-chart-graphic" ).text( "QA Metrics for s" +$("#sprint").val() +" sprint." );
 
