@@ -58,15 +58,39 @@
         <section class="wrapper">
         <!-- page start-->
 
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Select the sprint
+                        </header>
+                        <div class="panel-body">
+                            <div class="">
+                                <div class="form-inline" id="get-sprint" role="form">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="sprint">Enter sprint</label>
+                                        <input type="text" class="form-control" id="sprint" placeholder="Enter sprint">
+                                    </div>
+                                    <button  class="btn btn-success">Get!!!</button>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+            </div>
+
         <div class="row">
             <div class="col-sm-12">
-                <section class="panel">
+                <img src="images/ajax-loader.gif" id="loading-image">
+                <section class="panel" id="current-sprint">
                     <header class="panel-heading">
-                        QA Metrics current sprint
+                        QA Metrics in selected sprint
 
                     </header>
                     <div class="panel-body">
-                        <img src="images/ajax-loader.gif" id="loading-image">
+
 
                         <section id="unseen">
                             <table class="table table-bordered table-striped table-condensed">
@@ -108,46 +132,37 @@
 <script src="assets/easypiechart/jquery.easypiechart.js"></script>
 <!--Sparkline Chart-->
 <script src="assets/sparkline/jquery.sparkline.js"></script>
-<!--jQuery Flot Chart-->
-<!--<script src="assets/flot-chart/jquery.flot.js"></script>-->
-<!--<script src="assets/flot-chart/jquery.flot.tooltip.min.js"></script>-->
-<!--<script src="assets/flot-chart/jquery.flot.resize.js"></script>-->
-<!--<script src="assets/flot-chart/jquery.flot.pie.resize.js"></script>-->
 
 <script>
     $( document ).ready(function() {
-        $("#unseen").hide();
+        $("#current-sprint").hide();
+        $("#loading-image").hide();
+  });
 
-        $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/s48", function( data ) {
+
+    $("button").click(function( event ) {
+
+        $("#loading-image").show();
+
+        $( ".panel-heading" ).text( "QA Metrics for " +$("#sprint").val() +" sprint." );
+
+        $.getJSON( "http://localhost:3000/api/v1/qa_stats/"+$("#sprint").val() , function( data ) {
             var items = [];
             $.each( data, function( key, val ) {
-               // items.push( "<li id='" + key + "'>" + val + "</li>" );
-                //item = item + "<tr> <td>"+key+"</td> </tr>";
+
                 items.push( "<tr> <td>"+key+"</td> <td>"+val+"</td> </tr>");
             });
 
             $( "<tbody/>", {
-
                 html: items.join( "" )
             }).appendTo( "table" );
-            $("#unseen").show();
+
+            $("#current-sprint").show();
             $("#loading-image").hide();
         });
-//
-//        $.get("http://52.91.244.245:3000/api/v1/qa_stats/s47").done(function (data) {
-//            console.log(data);
-//
-//            var obj = jQuery.parseJSON(data);
-//            console.log(obj);
-//            console.log( obj["total-stories"] );
-//
-//        });
-  });
-
+    });
 
 </script>
-<!--common script init for all pages-->
-<!--<script src="js/scripts.js"></script>-->
 
 
 
