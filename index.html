@@ -81,7 +81,7 @@
                 </div>
             </div>
 
-        <div class="row">
+        <div class="row" >
             <div class="col-sm-12">
                 <img src="images/ajax-loader.gif" id="loading-image">
                 <section class="panel" id="current-sprint">
@@ -110,6 +110,72 @@
 
             </div>
         </div>
+
+
+
+
+            <div class="row" id ="charts">
+                <div class="col-sm-4">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Bar Chart
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="chartJS">
+                                <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
+                                <canvas id="canvas" height="450" width="600"></canvas>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-sm-4">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Bar Chart
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="chartJS">
+                                <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
+                                <canvas id="canvas1" height="450" width="600"></canvas>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="col-sm-4">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            Bar Chart
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                            <a href="javascript:;" class="fa fa-cog"></a>
+                            <a href="javascript:;" class="fa fa-times"></a>
+                         </span>
+                        </header>
+                        <div class="panel-body">
+                            <div class="chartJS">
+                                <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
+                                <canvas id="canvas2" height="450" width="600"></canvas>
+
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+
+
         <!-- page end-->
         </section>
     </section>
@@ -132,11 +198,13 @@
 <script src="assets/easypiechart/jquery.easypiechart.js"></script>
 <!--Sparkline Chart-->
 <script src="assets/sparkline/jquery.sparkline.js"></script>
+<script src="js/chartjs/Chart.min.js"></script>
 
 <script>
     $( document ).ready(function() {
         $("#current-sprint").hide();
         $("#loading-image").hide();
+        $("#charts").hide();
   });
 
 
@@ -153,15 +221,56 @@
 
                 items.push( "<tr> <td>"+key+"</td> <td>"+val+"</td> </tr>");
             });
-
+    
             $( "<tbody/>", {
                 html: items.join( "" )
             }).appendTo( "table" );
 
+
+
+            renderGraphics("48", "canvas");
+            renderGraphics("48", "canvas1");
+            renderGraphics("48", "canvas2");
+
+
+            $("#charts").show();
             $("#current-sprint").show();
             $("#loading-image").hide();
         });
+
+
     });
+
+
+
+    function renderGraphics(sprint, canvas){
+
+        $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/s"+sprint , function( data ) {
+            // Show graphics
+            var labels = [],datachart=[];
+            $.each( data, function( key, val ) {
+
+                labels.push(key);
+                datachart.push(val);
+            });
+
+            var barChartData = {
+                labels : labels,
+                datasets : [{
+                    fillColor : "rgba(172,194,132,0.4)",
+                    strokeColor : "#ACC26D",
+                    pointColor : "#fff",
+                    pointStrokeColor : "#9DB86D",
+                    data : datachart
+                }]
+            };
+
+            var ctx = document.getElementById(canvas).getContext("2d");
+            window.myBar = new Chart(ctx).Bar(barChartData, {
+                responsive : true
+            });
+        });
+    }
 
 </script>
 

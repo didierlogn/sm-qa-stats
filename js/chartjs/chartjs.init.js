@@ -26,23 +26,6 @@
     $(window).on('resize', function(){ size(false); });
 
 
-    function datasets(sprint){
-
-
-  return      $.get("http:/localhost:3000/api/v1/qa_stats/s47").done(function (data) {
-            console.log(data);
-            console.log("bien");
-
-        },"json");
-
-//        console.log(sprint);
-
-
-
-
-
-    }
-
     function redraw(animation){
         var options = {};
         if (!animation){
@@ -58,17 +41,12 @@
                 {
                     fillColor : "#E67A77",
                     strokeColor : "#E67A77",
-                    data : datasets("1")
+                    data : [65,59,90,81,56,55,40]
                 },
                 {
                     fillColor : "#79D1CF",
                     strokeColor : "#79D1CF",
                     data : [28,48,40,19,96,27,100]
-                },
-                {
-                    fillColor : "#000000",
-                    strokeColor : "#79D1CF",
-                    data : [128,148,140,119,196,127,100]
                 }
             ]
 
