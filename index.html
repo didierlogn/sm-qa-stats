@@ -127,6 +127,7 @@
                          </span>
                         </header>
                         <div class="panel-body">
+                            <img src="images/ajax-loader.gif" id="current-sprint-chart-graphic-loading-image">
                             <div class="chartJS">
                                 <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
                                 <canvas id="canvas" height="450" width="600"></canvas>
@@ -146,6 +147,7 @@
                          </span>
                         </header>
                         <div class="panel-body">
+                            <img src="images/ajax-loader.gif" id="previous-sprint-chart-graphic-loading-image">
                             <div class="chartJS">
                                 <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
                                 <canvas id="canvas1" height="450" width="600"></canvas>
@@ -165,6 +167,7 @@
                          </span>
                         </header>
                         <div class="panel-body">
+                            <img src="images/ajax-loader.gif" id="last-sprint-chart-graphic-loading-image">
                             <div class="chartJS">
                                 <!--<canvas id="bar-chart-js" height="250" width="800" ></canvas>-->
                                 <canvas id="canvas2" height="450" width="600"></canvas>
@@ -209,11 +212,21 @@
   });
 
     $(".label-success").click(function( event){
+        renderGraphics($("#sprint").val(), "canvas","current-sprint-chart-graphic-loading-image");
+        $( "#current-sprint-chart-graphic" ).text( "QA Metrics for s" +$("#sprint").val() +" sprint." );
+
+        renderGraphics($("#sprint").val()-1, "canvas1","previous-sprint-chart-graphic-loading-image");
+        $( "#previous-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-1) +" sprint." );
+
+        renderGraphics($("#sprint").val()-2, "canvas2","last-sprint-chart-graphic-loading-image");
+        $( "#last-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-2 )+" sprint." );
+
         $("#charts").show();
     });
 
     $("button").click(function( event ) {
         $("#current-sprint").hide();
+        $("#charts").hide();
         $("#loading-image").show();
 
         $( ".panel-heading" ).text( "QA Metrics for " +$("#sprint").val() +" sprint." );
@@ -229,28 +242,16 @@
             $( "<tbody/>", {
                 html: items.join( "" )
             }).appendTo( "table" );
-            
-            renderGraphics($("#sprint").val(), "canvas");
-            $( "#current-sprint-chart-graphic" ).text( "QA Metrics for s" +$("#sprint").val() +" sprint." );
-
-            renderGraphics($("#sprint").val()-1, "canvas1");
-            $( "#previous-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-1) +" sprint." );
-
-            renderGraphics($("#sprint").val()-2, "canvas2");
-            $( "#last-sprint-chart-graphic" ).text( "QA Metrics for s" +($("#sprint").val()-2 )+" sprint." );
-
-
 
             $("#current-sprint").show();
             $("#loading-image").hide();
         });
 
-
     });
 
 
 
-    function renderGraphics(sprint, canvas){
+    function renderGraphics(sprint, canvas,loadingImage){
 
         $.getJSON( "http://52.91.244.245:3000/api/v1/qa_stats/s"+sprint , function( data ) {
             // Show graphics
@@ -272,6 +273,7 @@
                 }]
             };
 
+            $("#"+loadingImage).hide();
             var ctx = document.getElementById(canvas).getContext("2d");
             window.myBar = new Chart(ctx).Bar(barChartData, {
                 responsive : true
